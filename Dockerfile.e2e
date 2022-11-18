@@ -6,7 +6,7 @@ RUN wget -O certs.deb http://ftp.fr.debian.org/debian/pool/main/c/ca-certificate
     && rm -rf /usr/share/ca-certificates/mozilla/DST_Root_CA_X3.crt certs.deb \
     && update-ca-certificates
 
-RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
