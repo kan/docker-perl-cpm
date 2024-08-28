@@ -1,0 +1,20 @@
+# syntax=docker/dockerfile:1
+FROM almalinux/9-base
+
+ARG BASE_TAG
+
+RUN dnf install -y epel-release \
+    && sed -i '5s/^enabled=0$/enabled=1/' /etc/yum.repos.d/almalinux-crb.repo \
+    && dnf update -y \
+    && dnf install -y git rsync patch wget perl-App-cpanminus \
+        mysql mysql-devel openssl-devel libxml2-devel expat-devel \
+        giflib-devel libpng-devel libjpeg-turbo-devel \    
+    && dnf clean all
+
+RUN mkdir /usr/local/${BASE_TAG} \
+    && curl https://raw.githubusercontent.com/tokuhirom/Perl-Build/master/perl-build | perl - ${BASE_TAG} /usr/local/perl-${BASE_TAG} \
+    && curl -L https://cpanmin.us/ | /usr/local/perl-${BASE_TAG}/bin/perl - App::cpm \
+    && /usr/local/perl-${BASE_TAG}/bin/cpm install -g Carton \
+    && ln -sf /usr/local/perl-${BASE_TAG}/bin/perl /usr/bin/perl
+
+WORKDIR /app
