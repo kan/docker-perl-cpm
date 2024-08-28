@@ -6,7 +6,7 @@ ARG BASE_TAG
 RUN dnf install -y epel-release \
     && sed -i '5s/^enabled=0$/enabled=1/' /etc/yum.repos.d/almalinux-crb.repo \
     && dnf update -y \
-    && dnf install -y git rsync patch wget perl-App-cpanminus \
+    && dnf install -y git rsync patch wget nmap-ncat perl-App-cpanminus \
         mysql mysql-devel openssl-devel libxml2-devel expat-devel \
         giflib-devel libpng-devel libjpeg-turbo-devel \    
     && dnf clean all
@@ -18,3 +18,5 @@ RUN mkdir /usr/local/${BASE_TAG} \
     && ln -sf /usr/local/perl-${BASE_TAG}/bin/perl /usr/bin/perl
 
 WORKDIR /app
+
+ENV PATH="/usr/local/perl-5.30.1/bin:${PATH}"
