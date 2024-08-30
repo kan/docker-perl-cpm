@@ -2,7 +2,9 @@
 ARG BASE_TAG
 FROM ghcr.io/kan/docker-perl-cpm/perl-cpm:${BASE_TAG}-m8
 
-RUN curl -sL https://rpm.nodesource.com/setup_14.x | bash - \
+ARG NODE_VERSION
+
+RUN curl -sL https://rpm.nodesource.com/setup_${NODE_VERSION}.x | bash - \
     && dnf install -y nodejs fontconfig \
         libX11 libXcomposite libXdamage libXrandr libXScrnSaver xorg-x11-server-Xvfb cairo pango \
         nss nss-util nss-softokn atk at-spi2-atk cups-libs libxkbcommon libatomic alsa-lib mesa-libgbm \
